@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="small-spring-step-02" />
         <module name="small-spring-step-01" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="small-spring-step-01" target="8" />
+      <module name="small-spring-step-01" target="1.5" />
+      <module name="small-spring-step-02" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
