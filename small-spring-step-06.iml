@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/small-spring-step-05/target/classes" />
-    <output-test url="file://$MODULE_DIR$/small-spring-step-05/target/test-classes" />
-    <content url="file://$MODULE_DIR$/small-spring-step-05">
-      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-05/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-05/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-05/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-05/src/test/resources" type="java-test-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/small-spring-step-05/target" />
+    <output url="file://$MODULE_DIR$/small-spring-step-06/target/classes" />
+    <output-test url="file://$MODULE_DIR$/small-spring-step-06/target/test-classes" />
+    <content url="file://$MODULE_DIR$/small-spring-step-06">
+      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-06/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-06/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-06/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/small-spring-step-06/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/small-spring-step-06/target" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
