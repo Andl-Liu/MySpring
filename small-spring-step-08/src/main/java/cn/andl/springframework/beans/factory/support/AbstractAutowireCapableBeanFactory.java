@@ -3,8 +3,7 @@ package cn.andl.springframework.beans.factory.support;
 import cn.andl.springframework.beans.BeansException;
 import cn.andl.springframework.beans.PropertyValue;
 import cn.andl.springframework.beans.PropertyValues;
-import cn.andl.springframework.beans.factory.DisposableBean;
-import cn.andl.springframework.beans.factory.InitializingBean;
+import cn.andl.springframework.beans.factory.*;
 import cn.andl.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import cn.andl.springframework.beans.factory.config.BeanDefinition;
 import cn.andl.springframework.beans.factory.config.BeanPostProcessor;
@@ -126,6 +125,24 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param beanDefinition bean定义
      */
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+
+        // 调用感知接口的方法
+        if (bean instanceof Aware) {
+            // 感知 BeanFactory
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            // 感知 BeanClassLoader
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            // 感知 BeanName
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
+
         // 1. 调用 BeanPostProcessor 的 postProcessBeforeInitialization() 方法
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
