@@ -47,8 +47,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 注册Bean的销毁方法
         registerDisposableBeanIfNecessary(bean, beanName, beanDefinition);
 
-        // 将bean对象添加到单例bean容器中
-        addSingleton(beanName, bean);
+        // 如果对象是单例，将bean对象添加到单例bean容器中
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 
@@ -220,11 +222,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * 注册即弃Bean
-     * @param bean
-     * @param beanName
-     * @param beanDefinition
+     * @param bean 目标bean
+     * @param beanName bean的名字
+     * @param beanDefinition bean定义
      */
     protected void registerDisposableBeanIfNecessary(Object bean, String beanName, BeanDefinition beanDefinition) {
+        // 非 Singleton 的 bean 不执行销毁方法
+        if (!beanDefinition.isSingleton()) {
+            return;
+        }
+
         if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
             registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
         }

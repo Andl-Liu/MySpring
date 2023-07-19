@@ -87,6 +87,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             // 读取销毁方法 destroy-method
             String destroyMethodName = bean.getAttribute("destroy-method");
 
+            // 读取作用域
+            String scope = bean.getAttribute("scope");
+
             // 设置bean的名字 id > name > className
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
             if (StrUtil.isEmpty(beanName)) {
@@ -105,6 +108,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             beanDefinition.setInitMethodName(initMethodName);
             // 设置销毁方法
             beanDefinition.setDestroyMethodName(destroyMethodName);
+
+            // 设置作用域
+            if (StrUtil.isNotEmpty(scope)) {
+                beanDefinition.setScope(scope);
+            }
 
             // 读取属性并填充
             for (int j = 0;j < bean.getChildNodes().getLength();j++) {
