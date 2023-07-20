@@ -34,7 +34,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
      * @param name Bean的名字
      * @param singleton 单例Bean对象
      */
-    protected void addSingleton(String name, Object singleton) {
+    public void addSingleton(String name, Object singleton) {
         singletonMap.put(name, singleton);
     }
 

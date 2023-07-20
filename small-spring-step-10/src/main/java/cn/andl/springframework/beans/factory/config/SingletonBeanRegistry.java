@@ -12,6 +12,8 @@ public interface SingletonBeanRegistry {
      */
     Object getSingleton(String name);
 
+    void addSingleton(String name, Object singleton);
+
     /**
      * 销毁单例Bean
      */
