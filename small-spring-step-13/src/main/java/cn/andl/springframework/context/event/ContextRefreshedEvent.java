@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context.event;
+package cn.andl.springframework.context.event;
 
 /**
  * 容器刷新事件

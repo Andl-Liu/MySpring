@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context.support;
+package cn.andl.springframework.context.support;
 
 import cn.andl.springframework.beans.BeansException;
 import cn.andl.springframework.beans.factory.ConfigurableListableBeanFactory;

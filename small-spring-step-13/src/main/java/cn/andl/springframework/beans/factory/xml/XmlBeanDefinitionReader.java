@@ -2,7 +2,7 @@ package cn.andl.springframework.beans.factory.xml;
 
 import cn.andl.springframework.beans.BeansException;
 import cn.andl.springframework.beans.PropertyValue;
-import cn.andl.springframework.beans.context.annotation.ClassPathBeanDefinitionScanner;
+import cn.andl.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import cn.andl.springframework.beans.factory.config.BeanDefinition;
 import cn.andl.springframework.beans.factory.config.BeanReference;
 import cn.andl.springframework.beans.factory.support.AbstractBeanDefinitionReader;
@@ -13,7 +13,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context.annotation;
+package cn.andl.springframework.context.annotation;
 
 import cn.andl.springframework.beans.factory.config.BeanDefinition;
 import cn.andl.springframework.stereotype.Component;

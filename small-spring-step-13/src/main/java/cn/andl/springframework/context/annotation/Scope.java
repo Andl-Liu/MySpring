@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context.annotation;
+package cn.andl.springframework.context.annotation;
 
 import java.lang.annotation.*;
 

@@ -1,8 +1,8 @@
-package cn.andl.springframework.beans.context.support;
+package cn.andl.springframework.context.support;
 
 import cn.andl.springframework.beans.BeansException;
-import cn.andl.springframework.beans.context.ApplicationContext;
-import cn.andl.springframework.beans.context.ApplicationContextAware;
+import cn.andl.springframework.context.ApplicationContext;
+import cn.andl.springframework.context.ApplicationContextAware;
 import cn.andl.springframework.beans.factory.config.BeanPostProcessor;
 
 /**

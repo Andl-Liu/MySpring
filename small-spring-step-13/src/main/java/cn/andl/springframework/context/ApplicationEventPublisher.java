@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context;
+package cn.andl.springframework.context;
 
 /**
  * 容器事件发布器接口

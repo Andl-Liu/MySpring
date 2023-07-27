@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context;
+package cn.andl.springframework.context;
 
 import java.util.EventObject;
 

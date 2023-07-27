@@ -1,4 +1,4 @@
-package cn.andl.springframework.beans.context.support;
+package cn.andl.springframework.context.support;
 
 /**
  * 从类路径加载XML资源的应用上下文具体实现类
