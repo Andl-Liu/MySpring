@@ -7,10 +7,14 @@ import cn.andl.springframework.beans.factory.BeanClassLoaderAware;
 import cn.andl.springframework.beans.factory.BeanFactory;
 import cn.andl.springframework.beans.factory.BeanFactoryAware;
 import cn.andl.springframework.beans.factory.BeanNameAware;
+import cn.andl.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Component("userService")
 public class UserService implements IUserService {
+
+    private String token;
 
     public String queryUserInfo() {
         try {
@@ -28,6 +32,19 @@ public class UserService implements IUserService {
             e.printStackTrace();
         }
         return "注册用户：" + userName + " success！";
+    }
+
+    @Override
+    public String toString() {
+        return "UserService#token = { " + token + " }";
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

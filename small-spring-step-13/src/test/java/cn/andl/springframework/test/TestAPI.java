@@ -16,9 +16,17 @@ import java.lang.reflect.Method;
 public class TestAPI {
 
     @Test
-    public void test_aop() {
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
-        IUserService userService = classPathXmlApplicationContext.getBean("userService", IUserService.class);
+    public void test_properties() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-properties.xml");
+        UserService userService = context.getBean("userService", UserService.class);
+        System.out.println(userService);
+    }
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        UserService userService = context.getBean("userService", UserService.class);
         System.out.println(userService.queryUserInfo());
     }
+
 }

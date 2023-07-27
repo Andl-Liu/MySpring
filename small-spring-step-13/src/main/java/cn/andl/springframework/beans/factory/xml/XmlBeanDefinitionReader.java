@@ -2,6 +2,7 @@ package cn.andl.springframework.beans.factory.xml;
 
 import cn.andl.springframework.beans.BeansException;
 import cn.andl.springframework.beans.PropertyValue;
+import cn.andl.springframework.beans.context.annotation.ClassPathBeanDefinitionScanner;
 import cn.andl.springframework.beans.factory.config.BeanDefinition;
 import cn.andl.springframework.beans.factory.config.BeanReference;
 import cn.andl.springframework.beans.factory.support.AbstractBeanDefinitionReader;
@@ -12,6 +13,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
@@ -70,6 +72,18 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             if (!(childNodes.item(i) instanceof Element)) {
                 continue;
             }
+
+            // 进行包扫描
+            if ("component-scan".equals(childNodes.item(i).getNodeName())) {
+                Element componentScan = (Element) childNodes.item(i);
+                String basePackage = componentScan.getAttribute("base-package");
+                if (StrUtil.isEmpty(basePackage)) {
+                    throw new BeansException("The value of base-package attribute can not be empty or null");
+                }
+                scanPackage(basePackage);
+                continue;
+            }
+
             // 当节点名不是 bean 的时候跳过
             if (!("bean".equals(childNodes.item(i).getNodeName()))) {
                 continue;
@@ -140,4 +154,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
 
     }
+
+    /**
+     * 包扫描
+     */
+    private void scanPackage(String scanPath) {
+        String[] basePackages = StrUtil.splitToArray(scanPath, ",");
+        ClassPathBeanDefinitionScanner classPathBeanDefinitionScanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        classPathBeanDefinitionScanner.doScan(basePackages);
+    }
+
 }

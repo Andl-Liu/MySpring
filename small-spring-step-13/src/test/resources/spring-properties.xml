@@ -1,0 +1,9 @@
+<beans>
+    <bean class="cn.andl.springframework.beans.factory.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:token.properties"/>
+    </bean>
+
+    <bean id="userService" class="cn.andl.springframework.test.bean.UserService">
+        <property name="token" value="${token}"/>
+    </bean>
+</beans>
