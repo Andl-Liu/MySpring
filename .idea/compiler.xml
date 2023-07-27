@@ -6,14 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="small-spring-step-09" />
         <module name="small-spring-step-11" />
         <module name="small-spring-step-10" />
-        <module name="small-spring-step-09" />
         <module name="small-spring-step-06" />
         <module name="small-spring-step-05" />
         <module name="small-spring-step-08" />
         <module name="small-spring-step-07" />
         <module name="small-spring-step-02" />
+        <module name="small-spring-step-13" />
         <module name="small-spring-step-01" />
         <module name="small-spring-step-12" />
         <module name="small-spring-step-04" />
@@ -33,6 +34,7 @@
       <module name="small-spring-step-10" target="1.8" />
       <module name="small-spring-step-11" target="1.8" />
       <module name="small-spring-step-12" target="1.8" />
+      <module name="small-spring-step-13" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
