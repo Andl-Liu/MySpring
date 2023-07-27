@@ -13,6 +13,17 @@ public class AdvisedSupport {
     // 方法匹配器
     private MethodMatcher methodMatcher;
 
+    // ProxyConfig
+    private boolean proxyTargetClass = false;
+
+    public boolean isProxyTargetClass() {
+        return proxyTargetClass;
+    }
+
+    public void setProxyTargetClass(boolean proxyTargetClass) {
+        this.proxyTargetClass = proxyTargetClass;
+    }
+
     public TargetSource getTargetSource() {
         return targetSource;
     }
