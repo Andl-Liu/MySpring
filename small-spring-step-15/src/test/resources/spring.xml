@@ -1,0 +1,9 @@
+<beans>
+
+    <bean class="cn.andl.springframework.beans.factory.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:token.properties"/>
+    </bean>
+
+    <component-scan base-package="cn.andl.springframework.test.bean"/>
+
+</beans>
