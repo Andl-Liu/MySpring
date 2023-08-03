@@ -1,6 +1,7 @@
 package cn.andl.springframework.beans.factory.config;
 
 import cn.andl.springframework.beans.factory.HierarchicalBeanFactory;
+import cn.andl.springframework.utils.StringValueResolver;
 
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
@@ -14,4 +15,16 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      */
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
+    /**
+     * 向容器中添加一个字符串解析器
+     * @param valueResolver 字符串解析器
+     */
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    /**
+     * 解析字符串的内嵌值
+     * @param value 字符串
+     * @return 解析后的字符串
+     */
+    String resolveEmbeddedValue(String value);
 }

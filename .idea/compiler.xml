@@ -19,6 +19,7 @@
         <module name="small-spring-step-12" />
         <module name="small-spring-step-04" />
         <module name="small-spring-step-03" />
+        <module name="small-spring-step-14" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
@@ -35,6 +36,7 @@
       <module name="small-spring-step-11" target="1.8" />
       <module name="small-spring-step-12" target="1.8" />
       <module name="small-spring-step-13" target="1.8" />
+      <module name="small-spring-step-14" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,24 +1,23 @@
 package cn.andl.springframework.test.bean;
 
-import java.util.HashMap;
+import cn.andl.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
 public class UserDao {
 
-    private static HashMap<String, String> hashMap = new HashMap<>();
+    private static Map<String, String> hashMap = new HashMap<>();
 
-    public void initDataMethod() {
-        System.out.println("执行 init-method ");
-        hashMap.put("1000", "壹零零零");
-        hashMap.put("1001", "壹零零壹");
-        hashMap.put("1002", "壹零零贰");
+    static {
+        hashMap.put("10001", "小傅哥，北京，亦庄");
+        hashMap.put("10002", "八杯水，上海，尖沙咀");
+        hashMap.put("10003", "阿毛，天津，东丽区");
     }
 
-    public void destroyDataMethod() {
-        System.out.println("执行 destroy-method ");
-        hashMap.clear();
+    public String queryUserName(String uId) {
+        return hashMap.get(uId);
     }
 
-    public String queryUserName(String uid) {
-        return hashMap.get(uid);
-    }
 }

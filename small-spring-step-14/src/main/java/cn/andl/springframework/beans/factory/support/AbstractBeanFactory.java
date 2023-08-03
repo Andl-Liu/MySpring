@@ -7,6 +7,7 @@ import cn.andl.springframework.beans.factory.config.BeanDefinition;
 import cn.andl.springframework.beans.factory.config.BeanPostProcessor;
 import cn.andl.springframework.beans.factory.config.ConfigurableBeanFactory;
 import cn.andl.springframework.utils.ClassUtils;
+import cn.andl.springframework.utils.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public abstract class AbstractBeanFactory extends AbstractFactoryBeanRegisterSup
     // 后置Bean处理器列表
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+    // 内嵌字符串处理器
+    private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
     /**
      * 通过名字获取bean
@@ -124,5 +127,19 @@ public abstract class AbstractBeanFactory extends AbstractFactoryBeanRegisterSup
 
     public ClassLoader getBeanClassLoader() {
         return beanClassLoader;
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolvers.add(valueResolver);
+    }
+
+    @Override
+    public String resolveEmbeddedValue(String value) {
+        String result = value;
+        for (StringValueResolver stringValueResolver : embeddedValueResolvers) {
+            result = stringValueResolver.resolveStringValue(result);
+        }
+        return result;
     }
 }

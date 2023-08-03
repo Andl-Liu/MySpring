@@ -10,6 +10,7 @@ import cn.hutool.core.util.StrUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * 实例化Bean类
@@ -39,6 +40,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
             // 创建bean实例
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 在设置bean的属性前，允许修改bean的属性值
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 为bean注入属性和依赖对象
             applyPropertyValues(beanName, bean, beanDefinition);
             // 调用Bean的初始化方法和后置Bean处理器
@@ -119,6 +122,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             }
         }
         return instantiationStrategy.instantiate(beanDefinition, beanName, constructorToUse, args);
+    }
+
+    /**
+     * 在为bean注入属性和依赖对象之前，应用beanPostProcessor，对属性值进行修改
+     */
+    private void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        List<BeanPostProcessor> beanPostProcessors = getBeanPostProcessors();
+        for (BeanPostProcessor beanPostProcessor : beanPostProcessors) {
+            if (!(beanPostProcessor instanceof InstantiationAwareBeanPostProcessor)) {
+                continue;
+            }
+            // 获取处理后的PropertyValues
+            PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+            if (pvs == null) {
+                continue;
+            }
+            // 将处理后的PropertyValue循环添加到bean定义中
+            for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+            }
+        }
     }
 
     /**

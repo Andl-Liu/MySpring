@@ -30,4 +30,10 @@ public interface BeanFactory {
      */
     <T> T getBean(String name, Class<T> type) throws BeansException;
 
+    /**
+     * 根据类型获取bean，并转换为指定的类型
+     * @param requiredType 需要的类型
+     * @return bean
+     */
+    <T> T getBean(Class<T> requiredType) throws BeansException;
 }

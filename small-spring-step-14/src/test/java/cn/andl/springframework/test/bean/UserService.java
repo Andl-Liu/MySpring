@@ -1,5 +1,7 @@
 package cn.andl.springframework.test.bean;
 
+import cn.andl.springframework.beans.factory.annotation.Autowired;
+import cn.andl.springframework.beans.factory.annotation.Value;
 import cn.andl.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -7,7 +9,11 @@ import java.util.Random;
 @Component("userService")
 public class UserService implements IUserService {
 
+    @Value("${token}")
     private String token;
+
+    @Autowired
+    private UserDao userDao;
 
     public String queryUserInfo() {
         try {
@@ -15,21 +21,12 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "小傅哥，100001，深圳";
-    }
-
-    public String register(String userName) {
-        try {
-            Thread.sleep(new Random(1).nextInt(100));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "注册用户：" + userName + " success！";
+        return userDao.queryUserName("10001") + "，" + token;
     }
 
     @Override
-    public String toString() {
-        return "UserService#token = { " + token + " }";
+    public String register(String userName) {
+        return null;
     }
 
     public String getToken() {
@@ -40,4 +37,11 @@ public class UserService implements IUserService {
         this.token = token;
     }
 
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 }
