@@ -32,7 +32,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(BeanDefinition beanDefinition, String beanName, Object[] args) throws BeansException {
         Object bean = null;
         try {
-            // 做实例化前的处理，生成代理对象
+            // 做实例化前的处理
             bean = resolveBeforeInstantiation(beanName, beanDefinition);
             if (bean != null) {
                 return bean;
@@ -45,7 +45,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 为bean注入属性和依赖对象
             applyPropertyValues(beanName, bean, beanDefinition);
             // 调用Bean的初始化方法和后置Bean处理器
-            initializeBean(beanName, bean, beanDefinition);
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
@@ -62,10 +62,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * 进行实例化之前的处理
-     * 用于生成代理对象
      */
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
-        // 获取代理对象
         Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
         if (bean != null) {
             // 应用初始化后的后置bean处理器

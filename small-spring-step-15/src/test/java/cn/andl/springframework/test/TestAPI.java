@@ -8,8 +8,8 @@ import org.junit.Test;
 public class TestAPI {
 
     @Test
-    public void test_autowired() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring.xml");
+    public void test_aop() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring2.xml");
         IUserService userService = context.getBean("userService", IUserService.class);
         System.out.println(userService.queryUserInfo());
     }

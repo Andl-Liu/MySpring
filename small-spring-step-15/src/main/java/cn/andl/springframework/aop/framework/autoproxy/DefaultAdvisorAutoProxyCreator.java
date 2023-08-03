@@ -32,6 +32,42 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        // 判断是不是基础类
+        if (isInfrastructureClass(bean.getClass())) {
+            return null;
+        }
+
+        // 获取所有的Advisor
+        Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
+
+        // 遍历Advisor
+        for (AspectJExpressionPointcutAdvisor advisor : advisors) {
+            // 筛选符合条件的
+            ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+            if (!classFilter.matches(bean.getClass())) {
+                continue;
+            }
+
+            // 将需要的信息包装进AdvisorSupport中
+
+            AdvisedSupport advisedSupport = new AdvisedSupport();
+
+            TargetSource targetSource = null;
+            try {
+                // 将bean设置到target中，后续在调用自己的方法（不是拦截器的方法）的时候会使用bean
+                targetSource = new TargetSource(bean);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            advisedSupport.setTargetSource(targetSource);
+            advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+            advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+            advisedSupport.setProxyTargetClass(false);
+
+            // 创建并返回代理对象
+            return new ProxyFactory(advisedSupport).getProxy();
+        }
+
         return null;
     }
 
@@ -49,42 +85,6 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
      */
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-
-        // 判断是不是基础类
-        if (isInfrastructureClass(beanClass)) {
-            return null;
-        }
-
-        // 获取所有的Advisor
-        Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
-
-        // 遍历Advisor
-        for (AspectJExpressionPointcutAdvisor advisor : advisors) {
-            // 筛选符合条件的
-            ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-            if (!classFilter.matches(beanClass)) {
-                continue;
-            }
-
-            // 将需要的信息包装进AdvisorSupport中
-
-            AdvisedSupport advisedSupport = new AdvisedSupport();
-
-            TargetSource targetSource = null;
-            try {
-                targetSource = new TargetSource(beanClass.getDeclaredConstructor().newInstance());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            advisedSupport.setTargetSource(targetSource);
-            advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
-            advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
-            advisedSupport.setProxyTargetClass(false);
-
-            // 创建并返回代理对象
-            return new ProxyFactory(advisedSupport).getProxy();
-        }
-
         return null;
     }
 
