@@ -11,6 +11,7 @@
         <module name="small-spring-step-10" />
         <module name="small-spring-step-06" />
         <module name="small-spring-step-05" />
+        <module name="small-spring-step-16" />
         <module name="small-spring-step-08" />
         <module name="small-spring-step-07" />
         <module name="small-spring-step-02" />
@@ -39,6 +40,7 @@
       <module name="small-spring-step-13" target="1.8" />
       <module name="small-spring-step-14" target="1.8" />
       <module name="small-spring-step-15" target="1.8" />
+      <module name="small-spring-step-16" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
