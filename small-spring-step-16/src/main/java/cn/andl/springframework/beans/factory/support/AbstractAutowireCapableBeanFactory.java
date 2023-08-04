@@ -30,16 +30,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     @Override
     protected Object createBean(BeanDefinition beanDefinition, String beanName, Object[] args) throws BeansException {
-        Object bean = null;
+        // 做实例化前的处理
+        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (bean != null) {
+            return bean;
+        }
+        return doCreateBean(beanDefinition, beanName, args);
+    }
+
+    private Object doCreateBean(BeanDefinition beanDefinition, String beanName, Object[] args) {
+        Object bean;
         try {
-            // 做实例化前的处理
-            bean = resolveBeforeInstantiation(beanName, beanDefinition);
-            if (bean != null) {
+            // 创建bean实例
+            bean = createBeanInstance(beanDefinition, beanName, args);
+
+            // 处理循环依赖，将bean添加到缓存中并暴露给容器
+            if (beanDefinition.isSingleton()) {
+                Object finalBean = bean;
+                addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, finalBean, beanDefinition));
+            }
+
+            // 实例化后判断
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorAfterInstantiation(bean, beanName);
+            if (!continueWithPropertyPopulation) {
                 return bean;
             }
 
-            // 创建bean实例
-            bean = createBeanInstance(beanDefinition, beanName, args);
             // 在设置bean的属性前，允许修改bean的属性值
             applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 为bean注入属性和依赖对象
@@ -54,10 +70,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         registerDisposableBeanIfNecessary(bean, beanName, beanDefinition);
 
         // 如果对象是单例，将bean对象添加到单例bean容器中
+        Object exposedObject = bean;
         if (beanDefinition.isSingleton()) {
-            addSingleton(beanName, bean);
+//            exposedObject = getSingleton(beanName);
+            registerSingleton(beanName, exposedObject);
         }
-        return bean;
+        return exposedObject;
+    }
+
+    protected Object getEarlyBeanReference(String beanName, Object bean, BeanDefinition beanDefinition) {
+        Object exposedObject = bean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                exposedObject = ((InstantiationAwareBeanPostProcessor)beanPostProcessor).getEarlyBeanReference(bean, beanName);
+                if (null == exposedObject) {
+                    return null;
+                }
+            }
+        }
+        return exposedObject;
     }
 
     /**
@@ -74,7 +105,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * 在实例化之前应用后置Bean处理器
-     * 用于生成代理对象
      */
     private Object applyBeanPostProcessorBeforeInstantiation(Class<?> beanClass, String beanName) {
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
@@ -87,6 +117,23 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             }
         }
         return null;
+    }
+
+    /**
+     * 在实例化之后应用后置Bean处理器
+     */
+    private boolean applyBeanPostProcessorAfterInstantiation(Object bean, String beanName) {
+        boolean continueWithPropertyPopulation = true;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                InstantiationAwareBeanPostProcessor instantiationAwareBeanPostProcessor = (InstantiationAwareBeanPostProcessor) beanPostProcessor;
+                if (!instantiationAwareBeanPostProcessor.postProcessAfterInstantiation(bean, beanName)) {
+                    continueWithPropertyPopulation = false;
+                    break;
+                }
+            }
+        }
+        return continueWithPropertyPopulation;
     }
 
     /**

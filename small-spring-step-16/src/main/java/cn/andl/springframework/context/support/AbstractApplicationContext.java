@@ -97,7 +97,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     private void initApplicationEventMulticaster() {
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
         this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
-        beanFactory.addSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
+        beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
     }
 
     /**
