@@ -53,7 +53,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
     protected Object wrapIfNecessary(Object bean, String beanName) {
         // 判断是不是基础类
         if (isInfrastructureClass(bean.getClass())) {
-            return null;
+            return bean;
         }
 
         // 获取所有的Advisor
@@ -81,13 +81,14 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
             advisedSupport.setTargetSource(targetSource);
             advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
             advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
-            advisedSupport.setProxyTargetClass(false);
+            // 使用CGLIB代理
+            advisedSupport.setProxyTargetClass(true);
 
             // 创建并返回代理对象
             return new ProxyFactory(advisedSupport).getProxy();
         }
 
-        return null;
+        return bean;
     }
 
     /**

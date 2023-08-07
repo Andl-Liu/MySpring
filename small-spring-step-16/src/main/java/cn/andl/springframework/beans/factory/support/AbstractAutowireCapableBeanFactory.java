@@ -31,7 +31,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     @Override
     protected Object createBean(BeanDefinition beanDefinition, String beanName, Object[] args) throws BeansException {
         // 做实例化前的处理
-        Object bean = applyBeanPostProcessorBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
         if (bean != null) {
             return bean;
         }
@@ -72,7 +72,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         // 如果对象是单例，将bean对象添加到单例bean容器中
         Object exposedObject = bean;
         if (beanDefinition.isSingleton()) {
-//            exposedObject = getSingleton(beanName);
+            // 如果存在代理对象的话，获取代理对象，在上面的代码中，进行填充的是被代理对象，而被暴露的是代理对象
+            exposedObject = getSingleton(beanName);
+            // 将代理对象注册进容器
             registerSingleton(beanName, exposedObject);
         }
         return exposedObject;

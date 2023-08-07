@@ -1,3 +1,0 @@
-<beans>
-    <component-scan base-package="cn.andl.springframework.test.bean"/>
-</beans>
