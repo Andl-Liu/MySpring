@@ -2,6 +2,7 @@
 
 基础的spring核心功能实现
 - IOC
+  - Bean定义
   - Bean容器
   - 使用CGLIB实例化bean
   - DI
